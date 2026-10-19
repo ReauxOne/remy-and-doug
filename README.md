@@ -17,6 +17,28 @@ A warm, low-friction personal assistant for life — built with ADHD brains in m
 | Gentle review | Every few days: "When did you last look over your list? Want 2 minutes to tidy it?" |
 | Tone | A friend with a clipboard, not a boss. Warm, light, a little playful. |
 
+## Try it
+
+```bash
+npm install
+npx expo start
+```
+
+- **On your phone:** install **Expo Go** from the App Store, then scan the QR code in the terminal with your camera. Phone and computer need to be on the same Wi-Fi.
+- **In a browser:** press `w` in the terminal, or run `npx expo start --web`.
+
+Everything is stored on the device. Settings → *Load samples* / *Clear everything* resets it.
+
+## Code map
+
+| File | What it does |
+|---|---|
+| `src/parse.ts` | Brandle: sorts a raw thought into context, effort, place and event |
+| `src/brindle.ts` | Brindle: picks one suggestion from time, work hours, energy and upcoming events |
+| `src/store.tsx` | State, on-device storage and sample data |
+| `src/ui.tsx` | Colors (light and dark), shared buttons, cards and chips |
+| `src/screens/` | Brindle, Brandle, List (with review), Events, Settings |
+
 ## Roadmap
 
 ### Stage 1 — Prototype you can use on your phone
