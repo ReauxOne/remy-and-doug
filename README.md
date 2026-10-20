@@ -5,6 +5,8 @@ A warm, low-friction personal assistant for life — built with ADHD brains in m
 - **Brandle** — "add this to my list." Say or type a thought; it gets filed for you.
 - **Brindle** — "what should I do right now?" You get **one** suggestion that fits the moment.
 
+📋 **The plan** (design, costs, roadmap and notes) lives in [PLAN.md](PLAN.md).
+
 ## Core ideas
 
 | Idea | What it means |
