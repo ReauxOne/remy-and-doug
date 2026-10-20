@@ -87,6 +87,8 @@ There's no Events page or List page. AI does the filing. "Parent-teacher confere
 ## Roadmap
 
 - [x] **Prototype:** Brindle, Brandle, energy check, work hours, event notes, list review (running in Expo Go)
+- [x] **Domain and website:** [brindlebrandle.com](https://brindlebrandle.com) with privacy policy and support pages (site code: ReauxOne/brindlebrandle.com)
+- [ ] **Email:** set up hello@brindlebrandle.com (used on the website)
 - [ ] **Redesign:** two-button home, swipe review deck, Settings
 - [ ] **AI sorting:** Supabase function and Claude Haiku. Understands dates and events. Works away from home Wi‑Fi.
 - [ ] **Notifications:** monthly check-in and event reminders
