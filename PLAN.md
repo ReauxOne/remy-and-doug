@@ -54,6 +54,22 @@ There's no Events page or List page. AI does the filing. "Parent-teacher confere
 
 **Privacy promise:** Notes about kids, health and work are sensitive. Data stays locked to each account. The AI provider doesn't train on it by default. A plain-language privacy policy comes before launch.
 
+## Connections: other apps, without the overwhelm
+
+**Ground rules**
+- **Off by default.** BB works fully on its own.
+- **Offered at the right moment, not during setup.** For example, after someone Brandles their third appointment: "Want me to put these on your calendar too?"
+- **One "Connections" row in Settings** with simple on/off switches.
+
+| Connection | What it does | Effort |
+|---|---|---|
+| **Phone calendar** | Reads and writes the iPhone Calendar, which already includes Outlook, Google and iCloud accounts added to the phone. Brandled events land in Outlook, and Outlook events become BB events you can attach notes to. One permission prompt, no sign-in. | Small (a few days) |
+| **BB as an MCP server** | Lets any AI assistant use BB. Say "Brandle: pick up washer fluid" in the Claude app and it lands in your real list. "Brindle" asks BB for your one suggestion. This is the original idea working everywhere. | Medium (1–2 weeks, after accounts and cloud backup exist) |
+| **Direct Outlook and Google** | Sign in to Microsoft or Google inside BB, for work calendars that aren't on the phone or for Teams meeting details. | Medium (1–2 weeks each). Google and Microsoft review apps that ask for calendar access, which can take weeks. |
+| **BB as an MCP client** | BB's AI reaches into your other apps (task tools, email) to suggest things. Each one needs its own sign-in and its own rules for what BB may do. | Large (later, once the core app is loved) |
+
+**Suggested order:** phone calendar → BB as an MCP server → direct Outlook and Google → BB as an MCP client.
+
 ## What it costs
 
 | | Just me | 100 beta testers | 10,000 users |
@@ -76,7 +92,10 @@ There's no Events page or List page. AI does the filing. "Parent-teacher confere
 - [ ] **Notifications:** monthly check-in and event reminders
 - [ ] **Backup and accounts:** Sign in with Apple, cloud copy of the list
 - [ ] **Private beta:** Apple Developer account, then TestFlight for friends and family
+- [ ] **Phone calendar connection:** Brandled events go to Outlook, Google or iCloud through the iPhone Calendar
+- [ ] **BB as an MCP server:** Brindle and Brandle from the Claude app or any AI assistant
 - [ ] **Location reminders:** saved places and "nearest store" geofences
+- [ ] **Direct Outlook and Google connections** (only if people need them)
 - [ ] **Launch:** privacy policy, App Store review, pricing, onboarding
 
 ## Known rough edges in the prototype
@@ -97,6 +116,7 @@ There's no Events page or List page. AI does the filing. "Parent-teacher confere
 - Shared lists (partner or family) someday?
 - Free tier versus paid: what's free forever?
 - Name of the voice and personality: does Brindle have a character?
+- Which connection after the calendar? Which apps do people actually ask for?
 
 ## My notes
 
