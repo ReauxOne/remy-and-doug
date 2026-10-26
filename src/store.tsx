@@ -83,6 +83,8 @@ interface Store {
   addThought: (t: ParsedThought) => Item;
   updateItem: (id: string, patch: Partial<Item>) => void;
   removeItem: (id: string) => void;
+  /** Puts back an item exactly as it was, e.g. after Undo. */
+  restoreItem: (item: Item) => void;
   addEvent: (e: Omit<BBEvent, 'id'>) => void;
   removeEvent: (id: string) => void;
   updateSettings: (patch: Partial<Settings>) => void;
@@ -120,6 +122,11 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       updateItem: (id, patch) =>
         setState((s) => ({ ...s, items: s.items.map((i) => (i.id === id ? { ...i, ...patch } : i)) })),
       removeItem: (id) => setState((s) => ({ ...s, items: s.items.filter((i) => i.id !== id) })),
+      restoreItem: (item) =>
+        setState((s) => ({
+          ...s,
+          items: s.items.some((i) => i.id === item.id) ? s.items.map((i) => (i.id === item.id ? item : i)) : [item, ...s.items],
+        })),
       addEvent: (e) => setState((s) => ({ ...s, events: [...s.events, { id: newId(), ...e }] })),
       removeEvent: (id) =>
         setState((s) => ({

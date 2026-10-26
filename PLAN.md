@@ -33,7 +33,7 @@ Built with ADHD brains in mind: no forms, no giant lists, no guilt. It feels lik
 | **Home** | The dragonfly, "what's on your mind?", and two big buttons: **Tell Remy** and **Ask Doug ↗**. Small links to Tidy up, Events and Settings. Pixel dragonflies drift behind it. |
 | **Tell Remy** | Type or dictate. Remy sorts it, or saves it as a setting when it's one ("my work hours are Mon–Fri, 5am to 3pm"). Always with Undo. |
 | **Ask Doug** | Pick your energy and get one suggestion, with **Done**, **Not now** and **Tomorrow**. |
-| **Tidy up** | One card at a time: keep, done already, next week or let it go. (Swipe version still to come.) |
+| **Tidy up** | Swipe one card at a time: right to keep, up to snooze a week, left to let go. Tap buttons and Undo too. Up to 10 cards, ending with "All tidy." |
 | **Settings** | Work hours, check-in rhythm, start over. |
 
 ### Getting started
@@ -142,7 +142,7 @@ After the stores' 15% cut, a Plus subscriber brings in about $4.20 a month, and 
 - [x] **Spoken settings:** work hours and check-in rhythm through Tell Remy
 - [x] **Getting started:** Doug's three setup tasks
 - [x] **Remy's playbook, part 1:** [playbook/PLAYBOOK.md](playbook/PLAYBOOK.md) with 49 example phrases (34 handled by today's rules, 15 waiting for AI). Keep adding phrases toward 100.
-- [ ] **Swipe review:** right to keep, up to snooze, left to let go, with Undo
+- [x] **Swipe review:** right to keep, up to snooze a week, left to let go, with Undo, tap buttons, a buzz at the commit point and up to 10 cards per session
 - [ ] **AI sorting:** Supabase function and Claude Haiku. Understands dates and events.
 - [ ] **Notifications:** check-ins and event reminders
 - [ ] **Backup and accounts:** Sign in with Apple, cloud copy of the list

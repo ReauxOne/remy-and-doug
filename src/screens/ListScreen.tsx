@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useStore } from '../store';
+import ReviewDeck from './ReviewDeck';
 import { ContextId, Item } from '../types';
-import { Button, Card, Chip, CONTEXTS, EFFORTS, H, P, useTheme } from '../ui';
-
-const DAY = 24 * 60 * 60 * 1000;
+import { Button, CONTEXTS, EFFORTS, H, P, useTheme } from '../ui';
 
 export default function ListScreen({ review, onReviewDone }: { review: boolean; onReviewDone: () => void }) {
   const { state } = useStore();
@@ -12,7 +11,7 @@ export default function ListScreen({ review, onReviewDone }: { review: boolean; 
   const done = state.items.filter((i) => i.kind === 'task' && !i.setup && i.doneAt);
   const [reviewing, setReviewing] = useState(review);
 
-  if (reviewing) return <Review onFinish={() => { setReviewing(false); onReviewDone(); }} />;
+  if (reviewing) return <ReviewDeck onFinish={() => { setReviewing(false); onReviewDone(); }} />;
 
   return (
     <ScrollView contentContainerStyle={styles.wrap}>
@@ -20,7 +19,7 @@ export default function ListScreen({ review, onReviewDone }: { review: boolean; 
       <P soft style={{ marginTop: 4 }}>
         {tasks.length} things in here. You don't have to look at all of them. That's Doug's job.
       </P>
-      <Button label="Review in 2 minutes" kind="calm" onPress={() => setReviewing(true)} style={{ marginTop: 14 }} />
+      <Button label="Swipe through a few" kind="calm" onPress={() => setReviewing(true)} style={{ marginTop: 14 }} />
 
       {(Object.keys(CONTEXTS) as ContextId[]).map((c) => {
         const group = tasks.filter((i) => i.context === c);
@@ -79,51 +78,6 @@ function Row({ item }: { item: Item }) {
         <Text style={{ color: t.soft, fontSize: 18 }}>✕</Text>
       </Pressable>
     </View>
-  );
-}
-
-/** One item at a time: keep, snooze, done or drop. */
-function Review({ onFinish }: { onFinish: () => void }) {
-  const { state, updateItem, removeItem, markReviewed } = useStore();
-  const [queue] = useState(() =>
-    state.items.filter((i) => i.kind === 'task' && !i.setup && !i.doneAt).sort((a, b) => a.createdAt - b.createdAt).map((i) => i.id),
-  );
-  const [index, setIndex] = useState(0);
-  const item = state.items.find((i) => i.id === queue[index]);
-  const next = () => setIndex((n) => n + 1);
-
-  if (index >= queue.length || !item) {
-    return (
-      <ScrollView contentContainerStyle={styles.wrap}>
-        <H size={30}>All tidy.</H>
-        <P soft style={{ marginTop: 8 }}>You looked at {queue.length} things. That's real work for a busy brain.</P>
-        <Button label="Back to my list" onPress={() => { markReviewed(); onFinish(); }} style={{ marginTop: 20 }} />
-      </ScrollView>
-    );
-  }
-
-  const age = Math.round((Date.now() - item.createdAt) / DAY);
-  return (
-    <ScrollView contentContainerStyle={styles.wrap}>
-      <P soft>
-        {index + 1} of {queue.length}
-      </P>
-      <H size={28} style={{ marginTop: 4 }}>Still want this?</H>
-      <Card style={{ marginTop: 16 }}>
-        <H size={22}>{item.text}</H>
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 10 }}>
-          <Chip label={CONTEXTS[item.context].label} />
-          <Chip label={age === 0 ? 'Added today' : `Added ${age}d ago`} />
-        </View>
-      </Card>
-      <Button label="Keep it" onPress={next} style={{ marginTop: 18 }} />
-      <View style={{ flexDirection: 'row', gap: 10, marginTop: 10 }}>
-        <Button label="Done already" kind="quiet" style={{ flex: 1 }} onPress={() => { updateItem(item.id, { doneAt: Date.now() }); next(); }} />
-        <Button label="Next week" kind="quiet" style={{ flex: 1 }} onPress={() => { updateItem(item.id, { snoozedUntil: Date.now() + 7 * DAY }); next(); }} />
-      </View>
-      <Button label="Let it go" kind="quiet" onPress={() => { removeItem(item.id); next(); }} style={{ marginTop: 10 }} />
-      <Button label="Stop for now" kind="quiet" onPress={() => { markReviewed(); onFinish(); }} style={{ marginTop: 24, borderWidth: 0 }} />
-    </ScrollView>
   );
 }
 
