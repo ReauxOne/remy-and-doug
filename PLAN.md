@@ -1,124 +1,176 @@
-# BrindleBrandle: The Plan
+# Remy & Doug: The Plan
 
 *A living one-pager. Add to it, cross things out, scribble in the notes section.*
-*Last updated: October 19, 2026*
+*Last updated: October 26, 2026. Formerly BrindleBrandle (renamed October 26, 2026).*
 
 ## The idea in one breath
 
-A personal assistant for life that never overwhelms you. Two words do almost everything:
+A personal assistant for life that never overwhelms you. Two friends do almost everything:
 
-- **Brandle**: "add this." Say it or type it. The app files it for you.
-- **Brindle**: "what should I do right now?" You get **one** thing that fits the moment.
+- **Remy remembers.** "Hey Remy, pick up washer fluid." Say it or type it. Remy files it for you.
+- **Doug does.** "Doug, what now?" You get **one** thing that fits the moment.
 
 Built with ADHD brains in mind: no forms, no giant lists, no guilt. It feels like a friend with a clipboard, not a boss.
 
-## The app: four screens, that's it
+## Brand
+
+| | |
+|---|---|
+| **Name** | Remy & Doug. Use "Remy & Doug™" until a trademark is registered. |
+| **Website** | [remyanddoug.com](https://remyanddoug.com) (GitHub Pages, repo `remyanddoug.com`) |
+| **Email** | hello@remyanddoug.com (Microsoft 365 through GoDaddy) |
+| **Look** | Bare and monochrome: greys, plus one bright red-orange (`#D9411B`, `#F2552B` in dark mode) for Doug and key moments. No emoji. |
+| **Type** | Inter Tight (light for headlines), JetBrains Mono for small labels |
+| **Logo** | A pixel dragonfly. It stays the same for good. |
+| **Background art** | Pixel creatures drawn as grey squares with a few text characters. Changes every quarter (Q4 2026: dragonflies). The same art file shape runs on the website (`art/*.js`) and in the app (`src/art/*.ts`). |
+| **Motion** | Slow and calm. Pauses in the background, holds still with Reduce Motion, and has a pause button on the website. |
+| **Old domain** | brindlebrandle.com is being retired. Turn off auto-renew before October 19, 2027, and turn off GitHub Pages on the old site repo first. |
+
+## The app
 
 | Screen | What's on it |
 |---|---|
-| **Home** | Two big buttons: **Brindle** and **Brandle**. Nothing else competing for attention. |
-| **Review** | One card at a time. Swipe **right = Keep**, **up = Snooze**, **left = Drop**. |
-| **Settings** | Work hours, saved places, check-in frequency, account. |
-| *(Brindle result)* | The one suggestion, with **Done ✓**, **Not now**, **Tomorrow**. |
+| **Home** | The dragonfly, "what's on your mind?", and two big buttons: **Tell Remy** and **Ask Doug ↗**. Small links to Tidy up, Events and Settings. Pixel dragonflies drift behind it. |
+| **Tell Remy** | Type or dictate. Remy sorts it, or saves it as a setting when it's one ("my work hours are Mon–Fri, 5am to 3pm"). Always with Undo. |
+| **Ask Doug** | Pick your energy and get one suggestion, with **Done**, **Not now** and **Tomorrow**. |
+| **Tidy up** | One card at a time: keep, done already, next week or let it go. (Swipe version still to come.) |
+| **Settings** | Work hours, check-in rhythm, start over. |
 
-There's no Events page or List page. AI does the filing. "Parent-teacher conference Nov 4" becomes an event, "ask about reading at the conference" becomes a note for it, and Brindle brings both back at the right time.
+### Getting started
+Doug's first three suggestions are small setup tasks, one at a time, each with a **Do it now** button:
+1. Tell Remy your work hours
+2. Tell Remy one thing that's on your mind
+3. Take a 2-minute tidy-up
 
-### The swipe review, in detail
-- While your finger drags, the matching word fades in and grows: **Keep →**, **↑ Snooze**, **← Drop**.
-- A small vibration when you've gone far enough to commit.
-- An **Undo** button for the last swipe, because a mistaken Drop will happen.
-- Small tap buttons too, for anyone who can't swipe or uses VoiceOver.
-- Snooze defaults to one week. A long-press could let you pick another length.
-- Three to ten cards per session, ending with "All tidy ✨", never "you have 47 items."
+They finish themselves when you do the thing, however you do it.
+
+### Things you can just say to Remy
+| Say | What happens |
+|---|---|
+| "My work hours are Monday through Friday, 5am to 3pm" | Work hours saved |
+| "I work weekdays 9 to 5", "my shift is 7 to 3 on weekends" | Work hours saved |
+| "Remind me to tidy up every week" | Check-in rhythm saved |
+| Anything else | Filed as a task, or as a note for an upcoming event |
 
 ## Rules that keep it gentle
 
-- **One answer, not a list.** Brindle never shows more than one thing.
-- **"Not now" is free.** Skipping never shows red badges or guilt. The app quietly remembers.
-- **Context decides what you see.** During work hours, only work items. Outside them, work stays hidden.
-- **Effort matching.** "How much gas do you have?" Low, Some or Full. The suggestion fits your energy.
-- **Monthly check-in, only if needed.** "When did you last look over your list?" comes 30 days after your last review, and never if you've been keeping up.
+- **One answer, not a list.** Doug never shows more than one thing.
+- **"Not now" is free.** No red badges, streaks or guilt.
+- **Context decides what you see.** During work hours, only work. Outside them, work stays hidden.
+- **Effort matching.** Low, some or full tank. The suggestion fits your energy.
+- **Check-ins only if needed.** A tidy-up nudge comes only when you haven't looked in a while.
 - **Warm tone everywhere.** Celebrate small wins and never scold.
 
 ## How it works behind the scenes
 
 | Piece | Job | Where it lives |
 |---|---|---|
-| App | What people install | Expo (React Native), built with EAS for iPhone and Android |
-| AI sorting | Turns a Brandle into context, effort, place, date and event | A small server function calling **Claude Haiku 5.5** (fast and cheap) |
-| Picking for Brindle | Chooses the one suggestion | On the phone: instant, works offline, no AI cost |
-| Storage | Your list | On the phone first, with a cloud backup in **Supabase** |
-| Accounts | Ties the backup to you | Sign in with Apple or Google |
-| Notifications | Check-ins and event reminders | Scheduled on the phone, so no server is needed |
-| Location | "You're near an auto parts store" | iPhone geofencing (watches about 20 places at a time) |
+| App | What people install | Expo (React Native), **SDK 58**. Expo Go on a phone only runs the newest SDK, so upgrade the project whenever Expo Go updates. |
+| Pixel background | Dragonflies behind the home screen | React Native Skia, 30 frames a second |
+| Spoken settings | "My work hours are…" | Plain rules on the phone (`src/spoken.ts`), no AI cost |
+| AI sorting | Turns a thought into context, effort, place, date and event | A small server function calling **Claude Haiku** (planned) |
+| Picking for Doug | Chooses the one suggestion | On the phone: instant, works offline, no AI cost |
+| Storage | Your list | On the phone first, with a cloud backup in **Supabase** (planned) |
+| Accounts | Ties the backup to you | Sign in with Apple or Google (planned) |
+| Notifications | Check-ins and event reminders | Scheduled on the phone. iPhones allow 64 scheduled at a time. |
 
-**Privacy promise:** Notes about kids, health and work are sensitive. Data stays locked to each account. The AI provider doesn't train on it by default. A plain-language privacy policy comes before launch.
+**Privacy promise:** Notes about kids, health and work are sensitive. Data stays locked to each account. The AI provider doesn't train on it by default. The privacy policy at remyanddoug.com/privacy.html is updated before any data leaves the phone.
 
-## Connections: other apps, without the overwhelm
+## Connections to the phone's own apps
 
-**Ground rules**
-- **Off by default.** BB works fully on its own.
-- **Offered at the right moment, not during setup.** For example, after someone Brandles their third appointment: "Want me to put these on your calendar too?"
-- **One "Connections" row in Settings** with simple on/off switches.
+**Ground rules:** off by default, offered at the right moment instead of during setup, and one simple on/off list in Settings.
 
-| Connection | What it does | Effort |
-|---|---|---|
-| **Phone calendar** | Reads and writes the iPhone Calendar, which already includes Outlook, Google and iCloud accounts added to the phone. Brandled events land in Outlook, and Outlook events become BB events you can attach notes to. One permission prompt, no sign-in. | Small (a few days) |
-| **BB as an MCP server** | Lets any AI assistant use BB. Say "Brandle: pick up washer fluid" in the Claude app and it lands in your real list. "Brindle" asks BB for your one suggestion. This is the original idea working everywhere. | Medium (1–2 weeks, after accounts and cloud backup exist) |
-| **Direct Outlook and Google** | Sign in to Microsoft or Google inside BB, for work calendars that aren't on the phone or for Teams meeting details. | Medium (1–2 weeks each). Google and Microsoft review apps that ask for calendar access, which can take weeks. |
-| **BB as an MCP client** | BB's AI reaches into your other apps (task tools, email) to suggest things. Each one needs its own sign-in and its own rules for what BB may do. | Large (later, once the core app is loved) |
-
-**Suggested order:** phone calendar → BB as an MCP server → direct Outlook and Google → BB as an MCP client.
-
-## What it costs
-
-| | Just me | 100 beta testers | 10,000 users |
+| Source | iPhone | Android | How Remy gets it |
 |---|---|---|---|
-| Apple Developer | $99/yr | $99/yr | $99/yr |
-| Google Play | $25 once | $25 once | $25 once |
-| Supabase (storage and server) | Free | Free | ~$25+/mo |
-| Expo builds (EAS) | Free tier | Free tier | ~$19–99/mo |
-| AI sorting (Haiku) | Pennies | ~$5/mo | ~$300–600/mo |
+| **Calendar** | Very reliable | Very reliable | Read and write directly. Includes Google and Outlook calendars added to the phone. One permission prompt. |
+| **Reminders** | Very reliable | No built-in app | iPhone: two-way sync. Android: Remy is the reminders app (Google Tasks would need Google sign-in and review). |
+| **Apple Notes / Google Keep** | No access | No access | Share a note to Remy from the Share button. |
+| **Messages and email** | No access | No access | Share to Remy. |
+| **Screenshots and photos** | When you pick one | When you pick one | AI reads the image: a school flyer becomes an event. |
+| **Contacts** | Yes | Yes | "Text Mom back" links to Mom's card. |
+| **Location** | About 20 places at once | About 100 | "You're near the auto parts store." |
+| **Voice** | Siri: "Hey Siri, tell Remy…" (reliable, iOS 16+) | Google's assistant is changing to Gemini, so less dependable | Android: a home-screen widget and a quick-settings button instead. |
+| **Focus modes** | Work Focus tells Doug "work only" | Limited | Needs a real build (not Expo Go). |
 
-- AI is about **$0.0001–0.0002 per Brandle**. At 10 a day, that's **3–6¢ per user per month**.
-- A **$2–3/month** subscription would comfortably cover costs. Apple keeps 15% for small developers.
-- *Service prices are rough as of October 2026. Check them when signing up.*
+**Limits to plan around:** iPhones limit background work, so Doug decides when the app is open and reminders use scheduled notifications. Some Android phone makers close background apps aggressively.
+
+**Further out:** Remy & Doug as an MCP server (Tell Remy and Ask Doug from the Claude app or any AI assistant), direct Outlook and Google sign-in, and Remy reaching into other apps.
+
+## What it costs to run
+
+| Item | Cost | Notes |
+|---|---|---|
+| remyanddoug.com | ~$22/yr | Auto-renews, privacy on |
+| Email (Microsoft 365 via GoDaddy) | ~$2–8/mo per inbox | Check the renewal price after any first-year deal |
+| Website hosting (GitHub Pages) | Free | |
+| Fonts | Free | Google Fonts |
+| Quarterly background art | Free | Design time only |
+| Apple Developer | $99/yr | Needed for TestFlight and the App Store |
+| Google Play | $25 once | |
+| App builds (Expo EAS) | Free → ~$19/mo | Paid only with frequent builds |
+| Cloud backup and AI (Supabase + Claude Haiku) | Free → ~$25/mo, plus about 3–10¢ per user per month | Starts when AI sorting goes live |
+| Siri and assistant shortcuts | Free | Development time only |
+| Trademark (US) | ~$350 per class | Classes 9 and 42, so about $700, plus an optional attorney search |
+
+**Rule of thumb:** anything that runs on the phone or in the browser costs time, not money. Anything on a server or using AI costs a little per user each month. Store accounts and trademarks are yearly or one-time fees.
+
+## Pricing (proposal)
+
+| Plan | Price | What's in it |
+|---|---|---|
+| **Free** | $0 | Tell Remy, Ask Doug, tidy-ups and reminders on the phone. About 30 AI-sorted thoughts a month. |
+| **Plus** | $4.99/mo or $39.99/yr | Unlimited AI sorting, calendar and reminder connections, Siri, backup across devices |
+| **Founding member** | $29.99/yr, locked in | For beta testers |
+
+After the stores' 15% cut, a Plus subscriber brings in about $4.20 a month, and AI costs about 10¢ of that. Around 15–20 yearly subscribers cover the fixed costs.
+
+## Trademark (to do before the public beta)
+
+1. Use "Remy & Doug™" now.
+2. Get an attorney clearance search (about $300–800). Check especially for objections from Melissa & Doug (toys, a different class, but a similar "Name & Doug" pattern).
+3. File the words "REMY & DOUG" as intent-to-use in Classes 9 (app) and 42 (online software). Register the dragonfly logo later.
+4. Ignore any trademark "invoice" that doesn't come from @uspto.gov.
 
 ## Roadmap
 
-- [x] **Prototype:** Brindle, Brandle, energy check, work hours, event notes, list review (running in Expo Go)
-- [x] **Domain and website:** [brindlebrandle.com](https://brindlebrandle.com) with privacy policy and support pages (site code: ReauxOne/brindlebrandle.com)
-- [ ] **Email:** set up hello@brindlebrandle.com (used on the website)
-- [ ] **Redesign:** two-button home, swipe review deck, Settings
-- [ ] **AI sorting:** Supabase function and Claude Haiku. Understands dates and events. Works away from home Wi‑Fi.
-- [ ] **Notifications:** monthly check-in and event reminders
+- [x] **Prototype:** add, one suggestion, energy check, work hours, event notes, list review (running in Expo Go)
+- [x] **Rename and brand:** Remy & Doug, pixel dragonfly, monochrome plus red-orange
+- [x] **Website:** [remyanddoug.com](https://remyanddoug.com) with privacy and support pages, a light/dark favicon and quarterly background art
+- [x] **Email:** hello@remyanddoug.com
+- [x] **App redesign, part 1:** two-button home, new look, no emoji, app icons with light, dark and tinted versions
+- [x] **Spoken settings:** work hours and check-in rhythm through Tell Remy
+- [x] **Getting started:** Doug's three setup tasks
+- [ ] **Remy's playbook:** the kinds of things people say, 50–100 example phrases and where each goes. These become the AI's instructions and its tests.
+- [ ] **Swipe review:** right to keep, up to snooze, left to let go, with Undo
+- [ ] **AI sorting:** Supabase function and Claude Haiku. Understands dates and events.
+- [ ] **Notifications:** check-ins and event reminders
 - [ ] **Backup and accounts:** Sign in with Apple, cloud copy of the list
-- [ ] **Private beta:** Apple Developer account, then TestFlight for friends and family
-- [ ] **Phone calendar connection:** Brandled events go to Outlook, Google or iCloud through the iPhone Calendar
-- [ ] **BB as an MCP server:** Brindle and Brandle from the Claude app or any AI assistant
-- [ ] **Location reminders:** saved places and "nearest store" geofences
-- [ ] **Direct Outlook and Google connections** (only if people need them)
-- [ ] **Launch:** privacy policy, App Store review, pricing, onboarding
+- [ ] **Private beta:** Apple Developer account, a real build, TestFlight for friends and family
+- [ ] **Siri and Focus:** "Hey Siri, tell Remy…", Work Focus shows work only (needs the real build)
+- [ ] **Phone calendar and reminders connection**
+- [ ] **Share to Remy:** from Notes, Messages, email and screenshots
+- [ ] **Location reminders:** saved places and "nearest store"
+- [ ] **Trademark filing**
+- [ ] **Launch:** App Store and Google Play review, pricing, onboarding
 
-## Known rough edges in the prototype
+## Known rough edges
 
-- Only runs while the Mac's dev server is on, on the same Wi‑Fi
-- No notifications, so the app has to be opened to remind you
-- Data lives only inside Expo Go, with no backup
-- Sorting is guesswork from a fixed word list and doesn't understand dates
+- Expo Go only: the app runs while the Mac's dev server is on, on the same Wi‑Fi
+- No notifications yet, so the app has to be opened to remind you
+- Data lives only on the phone, with no backup
+- Sorting is a fixed word list and doesn't understand dates yet
 - "Not now" is forgotten when you switch screens
-- Event reminders reappear every time the app opens in the last two days
-- Work hours have no "day off" switch
-- ✕ deletes instantly with no undo
+- The pixel background is skipped in the web preview
 
 ## Open questions
 
 - Snooze length: always one week, or pick each time?
-- Should Brindle ever say "nothing right now, go rest" on purpose?
+- Should Doug ever say "nothing right now, go rest" on purpose?
 - Shared lists (partner or family) someday?
-- Free tier versus paid: what's free forever?
-- Name of the voice and personality: does Brindle have a character?
+- Free versus paid: confirm the line above with beta testers
+- Do Remy and Doug have distinct voices and personalities?
 - Which connection after the calendar? Which apps do people actually ask for?
+- Background art for 2027 Q1?
 
 ## My notes
 
