@@ -1,18 +1,18 @@
 import { useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { brindle, daysSinceReview, isWorkTime, reviewDue, Suggestion, whenLabel } from '../brindle';
+import { pickOne, daysSinceReview, isWorkTime, reviewDue, Suggestion, whenLabel } from '../doug';
 import { useStore } from '../store';
 import { Energy } from '../types';
-import { Button, Card, Chip, CONTEXTS, EFFORTS, H, P, useTheme } from '../ui';
+import { Button, Card, Chip, CONTEXTS, EFFORTS, H, Label, P, useTheme } from '../ui';
 import type { Go } from '../../App';
 
 const ENERGY: { id: Energy; label: string }[] = [
-  { id: 'low', label: '🪫 Running low' },
-  { id: 'medium', label: '🔋 Some' },
-  { id: 'full', label: '⚡ Full tank' },
+  { id: 'low', label: 'Running low' },
+  { id: 'medium', label: 'Some' },
+  { id: 'full', label: 'Full tank' },
 ];
 
-const CHEERS = ["Nice. That's one off your plate.", 'Done! Your brain just got a little quieter.', 'Look at you go. ✨', 'Checked off. Proud of you.'];
+const CHEERS = ["Nice. That's one off your plate.", 'Done! Your brain just got a little quieter.', 'Look at you go.', 'Checked off. Proud of you.'];
 
 function greeting(now: Date) {
   const h = now.getHours();
@@ -22,7 +22,7 @@ function greeting(now: Date) {
   return 'Good evening';
 }
 
-export default function BrindleScreen({ go }: { go: Go }) {
+export default function DougScreen({ go }: { go: Go }) {
   const t = useTheme();
   const { state, updateItem } = useStore();
   const [energy, setEnergy] = useState<Energy | null>(null);
@@ -32,7 +32,7 @@ export default function BrindleScreen({ go }: { go: Go }) {
   const working = isWorkTime(state.settings.workHours, now);
 
   const suggestion: Suggestion | null = useMemo(
-    () => (energy ? brindle(state, energy, new Date(), passed) : null),
+    () => (energy ? pickOne(state, energy, new Date(), passed) : null),
     [state, energy, passed],
   );
 
@@ -40,16 +40,16 @@ export default function BrindleScreen({ go }: { go: Go }) {
 
   return (
     <ScrollView contentContainerStyle={styles.wrap}>
-      <P soft>{greeting(now)} 👋</P>
-      <H size={34}>What now?</H>
+      <P soft>{greeting(now)}</P>
+      <H size={34}>Ask Doug</H>
       <View style={styles.row}>
-        <Chip label={working ? '💼 Work hours: work stuff only' : '🌿 Off the clock: no work stuff'} />
+        <Chip label={working ? 'Work hours: work stuff only' : 'Off the clock: no work stuff'} />
       </View>
 
       {reviewDue(state, now) && (
         <Card alt style={styles.gap}>
           <P>
-            🧺 When did you last look over your list? It's been {daysSinceReview(state, now)} days.
+            When did you last look over your list? It's been {daysSinceReview(state, now)} days.
           </P>
           <Button label="Tidy for 2 minutes" kind="calm" onPress={() => go('list', { review: true })} style={styles.btnTop} />
         </Card>
@@ -81,12 +81,12 @@ export default function BrindleScreen({ go }: { go: Go }) {
 
       {suggestion?.type === 'task' && (
         <Card style={[styles.gap, styles.hero, { borderColor: t.accent }]}>
-          <P soft style={styles.small}>BRINDLE SAYS</P>
+          <Label>Doug says</Label>
           <H size={26} style={{ marginTop: 4 }}>{suggestion.item.text}</H>
           <View style={[styles.row, { marginTop: 10 }]}>
             <Chip label={`${CONTEXTS[suggestion.item.context].emoji} ${CONTEXTS[suggestion.item.context].label}`} />
             <Chip label={`${EFFORTS[suggestion.item.effort].dots} ${EFFORTS[suggestion.item.effort].label}`} />
-            {suggestion.item.place && <Chip label={`📍 ${suggestion.item.place}`} />}
+            {suggestion.item.place && <Chip label={`At: ${suggestion.item.place}`} />}
           </View>
           <P soft style={{ marginTop: 12 }}>{suggestion.reason}</P>
           <Button
@@ -125,7 +125,7 @@ export default function BrindleScreen({ go }: { go: Go }) {
 
       {suggestion?.type === 'event' && (
         <Card style={[styles.gap, styles.hero, { borderColor: t.calm }]}>
-          <P soft style={styles.small}>COMING UP {whenLabel(suggestion.days).toUpperCase()}</P>
+          <Label>Coming up {whenLabel(suggestion.days)}</Label>
           <H size={24} style={{ marginTop: 4 }}>
             {suggestion.event.emoji} {suggestion.event.title}
           </H>
@@ -140,7 +140,7 @@ export default function BrindleScreen({ go }: { go: Go }) {
       {suggestion?.type === 'empty' && (
         <Card alt style={styles.gap}>
           <P>{suggestion.reason}</P>
-          <Button label="Brandle something" kind="quiet" onPress={() => go('brandle')} style={styles.btnTop} />
+          <Button label="Tell Remy something" kind="quiet" onPress={() => go('remy')} style={styles.btnTop} />
         </Card>
       )}
 

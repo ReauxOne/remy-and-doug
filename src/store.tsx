@@ -3,6 +3,7 @@ import { createContext, ReactNode, useContext, useEffect, useMemo, useState } fr
 import { ParsedThought } from './parse';
 import { BBEvent, BBState, Item, Settings } from './types';
 
+// Kept from the BrindleBrandle days so existing lists carry over.
 const KEY = 'brindlebrandle/state/v1';
 const DAY = 24 * 60 * 60 * 1000;
 

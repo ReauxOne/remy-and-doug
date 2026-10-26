@@ -18,7 +18,7 @@ export default function ListScreen({ review, onReviewDone }: { review: boolean; 
     <ScrollView contentContainerStyle={styles.wrap}>
       <H size={34}>Your list</H>
       <P soft style={{ marginTop: 4 }}>
-        {tasks.length} things in here. You don't have to look at all of them. That's Brindle's job.
+        {tasks.length} things in here. You don't have to look at all of them. That's Doug's job.
       </P>
       <Button label="🧺 Review in 2 minutes" kind="calm" onPress={() => setReviewing(true)} style={{ marginTop: 14 }} />
 
@@ -61,7 +61,7 @@ function Row({ item }: { item: Item }) {
         accessibilityState={{ checked: done }}
         accessibilityLabel={item.text}
         onPress={() => updateItem(item.id, { doneAt: done ? undefined : Date.now() })}
-        style={[styles.check, { borderColor: t.brindle, backgroundColor: done ? t.brindle : 'transparent' }]}
+        style={[styles.check, { borderColor: t.strong, backgroundColor: done ? t.strong : 'transparent' }]}
       >
         {done && <Text style={{ color: t.bg, fontWeight: '900' }}>✓</Text>}
       </Pressable>

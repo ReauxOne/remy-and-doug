@@ -1,28 +1,36 @@
 {
   "expo": {
-    "name": "BrindleBrandle",
-    "slug": "brindlebrandle",
+    "name": "Remy & Doug",
+    "slug": "remyanddoug",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "icon": {
+        "light": "./assets/icon.png",
+        "dark": "./assets/icon-dark.png",
+        "tinted": "./assets/icon-tinted.png"
+      }
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#FBF6EE",
+        "backgroundColor": "#FFFFFF",
         "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false
     },
     "web": {
       "favicon": "./assets/favicon.png",
-      "name": "BrindleBrandle",
-      "backgroundColor": "#FBF6EE",
-      "themeColor": "#7A5230"
-    }
+      "name": "Remy & Doug",
+      "backgroundColor": "#FAFAF9",
+      "themeColor": "#FAFAF9"
+    },
+    "plugins": [
+      "expo-status-bar",
+      "expo-font"
+    ]
   }
 }

@@ -26,7 +26,7 @@ export default function SettingsScreen() {
 
       <Card style={styles.gap}>
         <H size={18}>💼 Work hours</H>
-        <P soft style={{ marginTop: 4 }}>During these hours Brindle only suggests work. Outside them, work stays hidden.</P>
+        <P soft style={{ marginTop: 4 }}>During these hours Doug only suggests work. Outside them, work stays hidden.</P>
         <View style={styles.row}>
           {DAYS.map((d, i) => (
             <Chip
@@ -54,7 +54,7 @@ export default function SettingsScreen() {
       <Card alt style={styles.gap}>
         <H size={18}>🌱 Coming in the real app</H>
         <P soft style={{ marginTop: 6 }}>
-          📍 Reminders when you're near a store{'\n'}🔔 Notifications{'\n'}📆 Events pulled from your calendar{'\n'}🗣️ "Hey Siri, Brindle"{'\n'}🤖 Smarter AI sorting{'\n'}☁️ Sync across devices
+          📍 Reminders when you're near a store{'\n'}🔔 Notifications{'\n'}📆 Events pulled from your calendar{'\n'}🗣️ "Hey Siri, tell Remy…"{'\n'}🤖 Smarter AI sorting{'\n'}☁️ Sync across devices
         </P>
       </Card>
 

@@ -46,8 +46,8 @@ export type Suggestion =
   | { type: 'task'; item: Item; reason: string }
   | { type: 'empty'; reason: string };
 
-/** Brindle: picks ONE thing to do right now. `passed` holds ids you've said "not now" to this round. */
-export function brindle(state: BBState, energy: Energy, now: Date, passed: Set<string>): Suggestion {
+/** Doug: picks ONE thing to do right now. `passed` holds ids you've said "not now" to this round. */
+export function pickOne(state: BBState, energy: Energy, now: Date, passed: Set<string>): Suggestion {
   // An event coming up soon with notes waiting comes first.
   for (const event of [...state.events].sort((a, b) => a.date.localeCompare(b.date))) {
     const days = daysUntil(event.date, now);
@@ -72,7 +72,7 @@ export function brindle(state: BBState, energy: Energy, now: Date, passed: Set<s
         ? "That's everything that fits right now. Resting counts too."
         : working
           ? 'Nothing on the work list. Enjoy the breathing room.'
-          : 'Your list is clear for now. Brandle something whenever it pops into your head.',
+          : 'Your list is clear for now. Tell Remy whenever something pops into your head.',
     };
   }
 

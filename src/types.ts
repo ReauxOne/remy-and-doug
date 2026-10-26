@@ -16,7 +16,7 @@ export interface Item {
   createdAt: number;
   doneAt?: number;
   snoozedUntil?: number;
-  /** How many times Brindle suggested it and you said "not now". */
+  /** How many times Doug suggested it and you said "not now". */
   skips: number;
 }
 

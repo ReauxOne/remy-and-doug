@@ -3,9 +3,9 @@ import { Platform, ScrollView, StyleSheet, TextInput, View } from 'react-native'
 import { parseThought } from '../parse';
 import { useStore } from '../store';
 import { ContextId, Effort, Item } from '../types';
-import { Button, Card, Chip, CONTEXTS, EFFORTS, H, P, useTheme } from '../ui';
+import { Button, Card, Chip, CONTEXTS, EFFORTS, H, Label, P, useTheme } from '../ui';
 
-export default function BrandleScreen() {
+export default function RemyScreen() {
   const t = useTheme();
   const { state, addThought, updateItem, removeItem } = useStore();
   const [text, setText] = useState('');
@@ -23,8 +23,8 @@ export default function BrandleScreen() {
 
   return (
     <ScrollView contentContainerStyle={styles.wrap} keyboardShouldPersistTaps="handled">
-      <H size={34}>Brandle it</H>
-      <P soft style={{ marginTop: 4 }}>Get it out of your head. I'll sort it.</P>
+      <H size={34}>Tell Remy</H>
+      <P soft style={{ marginTop: 4 }}>Get it out of your head. Remy will sort it.</P>
 
       <Card style={styles.gap}>
         <TextInput
@@ -47,15 +47,15 @@ export default function BrandleScreen() {
           returnKeyType="done"
           style={[styles.input, { color: t.ink }]}
         />
-        <Button label="Brandle ✍️" onPress={save} style={{ marginTop: 12 }} />
+        <Button label="Remember this" onPress={save} style={{ marginTop: 12 }} />
         <P soft style={{ marginTop: 10, fontSize: 13, textAlign: 'center' }}>
-          Tip: tap the 🎤 on your keyboard to just say it.
+          Tip: tap the microphone on your keyboard to just say it.
         </P>
       </Card>
 
       {last && (
         <Card alt style={styles.gap}>
-          <P soft style={styles.small}>GOT IT ✓</P>
+          <Label>Remy's got it</Label>
           <H size={20} style={{ marginTop: 4 }}>{last.text}</H>
           {last.kind === 'note' && eventOf(last.eventId) ? (
             <P style={{ marginTop: 8 }}>
@@ -85,7 +85,7 @@ export default function BrandleScreen() {
                   />
                 ))}
               </View>
-              {last.place && <P soft style={{ marginTop: 10 }}>📍 Belongs at: {last.place}</P>}
+              {last.place && <P soft style={{ marginTop: 10 }}>Belongs at: {last.place}</P>}
             </>
           )}
           {state.events.length > 0 && (

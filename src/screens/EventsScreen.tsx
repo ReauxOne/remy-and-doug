@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import { daysUntil, whenLabel } from '../brindle';
+import { daysUntil, whenLabel } from '../doug';
 import { useStore } from '../store';
 import { BBEvent } from '../types';
 import { Button, Card, Chip, H, P, useTheme } from '../ui';

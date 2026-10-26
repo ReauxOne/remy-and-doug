@@ -53,7 +53,7 @@ export function matchEvent(text: string, events: BBEvent[]): BBEvent | undefined
 
 /** Sorts a raw thought into context, effort and place, so capturing never needs a form. */
 export function parseThought(raw: string, events: BBEvent[]): ParsedThought {
-  const text = raw.trim().replace(/^brandle[,:]?\s*/i, '');
+  const text = raw.trim().replace(/^(hey |ok |okay )?(remy|brandle)[,:]?\s*/i, '');
   const lower = text.toLowerCase();
 
   const event = matchEvent(text, events);
