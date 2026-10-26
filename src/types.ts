@@ -18,14 +18,19 @@ export interface Item {
   snoozedUntil?: number;
   /** How many times Doug suggested it and you said "not now". */
   skips: number;
+  /** Set on Doug's getting-started tasks, which finish themselves when you do the thing. */
+  setup?: SetupId;
 }
+
+export type SetupId = 'workHours' | 'firstThought' | 'tidy';
 
 export interface BBEvent {
   id: string;
   title: string;
   /** ISO date, e.g. 2026-11-04 */
   date: string;
-  emoji: string;
+  /** Left over from early versions; no longer shown. */
+  emoji?: string;
 }
 
 export interface WorkHours {
@@ -39,6 +44,8 @@ export interface Settings {
   workHours: WorkHours;
   reviewEveryDays: number;
   lastReviewAt: number;
+  /** True once Doug's getting-started tasks have been added. */
+  setupSeeded?: boolean;
 }
 
 export interface BBState {

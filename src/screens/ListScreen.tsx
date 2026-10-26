@@ -8,8 +8,8 @@ const DAY = 24 * 60 * 60 * 1000;
 
 export default function ListScreen({ review, onReviewDone }: { review: boolean; onReviewDone: () => void }) {
   const { state } = useStore();
-  const tasks = state.items.filter((i) => i.kind === 'task' && !i.doneAt);
-  const done = state.items.filter((i) => i.kind === 'task' && i.doneAt);
+  const tasks = state.items.filter((i) => i.kind === 'task' && !i.setup && !i.doneAt);
+  const done = state.items.filter((i) => i.kind === 'task' && !i.setup && i.doneAt);
   const [reviewing, setReviewing] = useState(review);
 
   if (reviewing) return <Review onFinish={() => { setReviewing(false); onReviewDone(); }} />;
@@ -20,7 +20,7 @@ export default function ListScreen({ review, onReviewDone }: { review: boolean; 
       <P soft style={{ marginTop: 4 }}>
         {tasks.length} things in here. You don't have to look at all of them. That's Doug's job.
       </P>
-      <Button label="🧺 Review in 2 minutes" kind="calm" onPress={() => setReviewing(true)} style={{ marginTop: 14 }} />
+      <Button label="Review in 2 minutes" kind="calm" onPress={() => setReviewing(true)} style={{ marginTop: 14 }} />
 
       {(Object.keys(CONTEXTS) as ContextId[]).map((c) => {
         const group = tasks.filter((i) => i.context === c);
@@ -28,7 +28,7 @@ export default function ListScreen({ review, onReviewDone }: { review: boolean; 
         return (
           <View key={c} style={{ marginTop: 22 }}>
             <H size={18}>
-              {CONTEXTS[c].emoji} {CONTEXTS[c].label}
+              {CONTEXTS[c].label}
             </H>
             {group.map((i) => (
               <Row key={i.id} item={i} />
@@ -39,7 +39,7 @@ export default function ListScreen({ review, onReviewDone }: { review: boolean; 
 
       {done.length > 0 && (
         <View style={{ marginTop: 26 }}>
-          <H size={18}>🎉 Done ({done.length})</H>
+          <H size={18}>Done ({done.length})</H>
           {done.slice(0, 15).map((i) => (
             <Row key={i.id} item={i} />
           ))}
@@ -71,8 +71,8 @@ function Row({ item }: { item: Item }) {
         </Text>
         <Text style={{ color: t.soft, fontSize: 13, marginTop: 2 }}>
           {EFFORTS[item.effort].dots} {EFFORTS[item.effort].label}
-          {item.place ? `  ·  📍 ${item.place}` : ''}
-          {snoozed ? '  ·  💤 snoozed' : ''}
+          {item.place ? `  ·  ${item.place}` : ''}
+          {snoozed ? '  ·  snoozed' : ''}
         </Text>
       </View>
       <Pressable accessibilityLabel={`Remove ${item.text}`} onPress={() => removeItem(item.id)} hitSlop={10}>
@@ -86,7 +86,7 @@ function Row({ item }: { item: Item }) {
 function Review({ onFinish }: { onFinish: () => void }) {
   const { state, updateItem, removeItem, markReviewed } = useStore();
   const [queue] = useState(() =>
-    state.items.filter((i) => i.kind === 'task' && !i.doneAt).sort((a, b) => a.createdAt - b.createdAt).map((i) => i.id),
+    state.items.filter((i) => i.kind === 'task' && !i.setup && !i.doneAt).sort((a, b) => a.createdAt - b.createdAt).map((i) => i.id),
   );
   const [index, setIndex] = useState(0);
   const item = state.items.find((i) => i.id === queue[index]);
@@ -95,7 +95,7 @@ function Review({ onFinish }: { onFinish: () => void }) {
   if (index >= queue.length || !item) {
     return (
       <ScrollView contentContainerStyle={styles.wrap}>
-        <H size={30}>All tidy ✨</H>
+        <H size={30}>All tidy.</H>
         <P soft style={{ marginTop: 8 }}>You looked at {queue.length} things. That's real work for a busy brain.</P>
         <Button label="Back to my list" onPress={() => { markReviewed(); onFinish(); }} style={{ marginTop: 20 }} />
       </ScrollView>
@@ -112,7 +112,7 @@ function Review({ onFinish }: { onFinish: () => void }) {
       <Card style={{ marginTop: 16 }}>
         <H size={22}>{item.text}</H>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 10 }}>
-          <Chip label={`${CONTEXTS[item.context].emoji} ${CONTEXTS[item.context].label}`} />
+          <Chip label={CONTEXTS[item.context].label} />
           <Chip label={age === 0 ? 'Added today' : `Added ${age}d ago`} />
         </View>
       </Card>
@@ -121,7 +121,7 @@ function Review({ onFinish }: { onFinish: () => void }) {
         <Button label="Done already" kind="quiet" style={{ flex: 1 }} onPress={() => { updateItem(item.id, { doneAt: Date.now() }); next(); }} />
         <Button label="Next week" kind="quiet" style={{ flex: 1 }} onPress={() => { updateItem(item.id, { snoozedUntil: Date.now() + 7 * DAY }); next(); }} />
       </View>
-      <Button label="Let it go 🍃" kind="quiet" onPress={() => { removeItem(item.id); next(); }} style={{ marginTop: 10 }} />
+      <Button label="Let it go" kind="quiet" onPress={() => { removeItem(item.id); next(); }} style={{ marginTop: 10 }} />
       <Button label="Stop for now" kind="quiet" onPress={() => { markReviewed(); onFinish(); }} style={{ marginTop: 24, borderWidth: 0 }} />
     </ScrollView>
   );

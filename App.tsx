@@ -9,11 +9,12 @@ import EventsScreen from './src/screens/EventsScreen';
 import ListScreen from './src/screens/ListScreen';
 import RemyScreen from './src/screens/RemyScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
+import PixelSky from './src/PixelSky';
 import { StoreProvider } from './src/store';
 import { Dragonfly, FONT, H, Label, useTheme } from './src/ui';
 
 export type Tab = 'home' | 'remy' | 'doug' | 'list' | 'events' | 'settings';
-export type Go = (tab: Tab, opts?: { review?: boolean }) => void;
+export type Go = (tab: Tab, opts?: { review?: boolean; prefill?: string }) => void;
 
 function Home({ go }: { go: Go }) {
   const t = useTheme();
@@ -67,8 +68,10 @@ function Shell() {
   const scheme = useColorScheme();
   const [tab, setTab] = useState<Tab>('home');
   const [review, setReview] = useState(false);
+  const [prefill, setPrefill] = useState<string | undefined>();
   const go: Go = (next, opts) => {
     setReview(!!opts?.review);
+    setPrefill(opts?.prefill);
     setTab(next);
   };
 
@@ -86,14 +89,17 @@ function Shell() {
     <SafeAreaView style={[styles.fill, { backgroundColor: t.bg }]}>
       <StatusBar style={scheme === 'dark' ? 'light' : 'dark'} />
       {tab === 'home' ? (
-        <Home go={go} />
+        <View style={styles.fill}>
+          <PixelSky />
+          <Home go={go} />
+        </View>
       ) : (
         <View style={styles.fill}>
           <Pressable accessibilityRole="button" accessibilityLabel="Back to home" onPress={() => go('home')} hitSlop={12} style={styles.back}>
             <Text style={{ color: t.soft, fontFamily: FONT.regular, fontSize: 16 }}>← Home</Text>
           </Pressable>
           {tab === 'doug' && <DougScreen go={go} />}
-          {tab === 'remy' && <RemyScreen />}
+          {tab === 'remy' && <RemyScreen prefill={prefill} />}
           {tab === 'list' && <ListScreen key={String(review)} review={review} onReviewDone={() => setReview(false)} />}
           {tab === 'events' && <EventsScreen />}
           {tab === 'settings' && <SettingsScreen />}

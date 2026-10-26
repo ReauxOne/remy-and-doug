@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 import { ParsedThought } from './parse';
-import { BBEvent, BBState, Item, Settings } from './types';
+import { BBEvent, BBState, Item, Settings, SetupId } from './types';
 
 // Kept from the BrindleBrandle days so existing lists carry over.
 const KEY = 'brindlebrandle/state/v1';
@@ -49,6 +49,34 @@ export function sampleState(): BBState {
   };
 }
 
+/** Doug's first few tasks: small things that make the app work better for you. */
+const SETUP: { id: SetupId; text: string }[] = [
+  { id: 'workHours', text: 'Tell Remy your work hours' },
+  { id: 'firstThought', text: "Tell Remy one thing that's on your mind" },
+  { id: 'tidy', text: 'Take a 2-minute tidy-up' },
+];
+
+function withSetup(state: BBState): BBState {
+  if (state.settings.setupSeeded) return state;
+  const now = Date.now();
+  const tasks: Item[] = SETUP.map((s, i) => ({
+    id: newId(),
+    text: s.text,
+    kind: 'task',
+    context: 'anything',
+    effort: 'low',
+    createdAt: now + i,
+    skips: 0,
+    setup: s.id,
+  }));
+  return { ...state, items: [...tasks, ...state.items], settings: { ...state.settings, setupSeeded: true } };
+}
+
+const finishSetup = (state: BBState, id: SetupId): BBState => ({
+  ...state,
+  items: state.items.map((i) => (i.setup === id && !i.doneAt ? { ...i, doneAt: Date.now() } : i)),
+});
+
 interface Store {
   state: BBState;
   ready: boolean;
@@ -59,18 +87,19 @@ interface Store {
   removeEvent: (id: string) => void;
   updateSettings: (patch: Partial<Settings>) => void;
   markReviewed: () => void;
+  completeSetup: (id: SetupId) => void;
   reset: (to: 'samples' | 'empty') => void;
 }
 
 const StoreContext = createContext<Store | null>(null);
 
 export function StoreProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState<BBState>(sampleState);
+  const [state, setState] = useState<BBState>(() => withSetup(sampleState()));
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
     AsyncStorage.getItem(KEY)
-      .then((raw) => raw && setState(JSON.parse(raw)))
+      .then((raw) => raw && setState(withSetup(JSON.parse(raw))))
       .catch(() => {})
       .finally(() => setReady(true));
   }, []);
@@ -98,13 +127,20 @@ export function StoreProvider({ children }: { children: ReactNode }) {
           events: s.events.filter((e) => e.id !== id),
           items: s.items.map((i) => (i.eventId === id ? { ...i, eventId: undefined, kind: 'task' } : i)),
         })),
-      updateSettings: (patch) => setState((s) => ({ ...s, settings: { ...s.settings, ...patch } })),
-      markReviewed: () => setState((s) => ({ ...s, settings: { ...s.settings, lastReviewAt: Date.now() } })),
+      updateSettings: (patch) =>
+        setState((s) => {
+          const next = { ...s, settings: { ...s.settings, ...patch } };
+          return patch.workHours ? finishSetup(next, 'workHours') : next;
+        }),
+      markReviewed: () => setState((s) => finishSetup({ ...s, settings: { ...s.settings, lastReviewAt: Date.now() } }, 'tidy')),
+      completeSetup: (id) => setState((s) => finishSetup(s, id)),
       reset: (to) =>
         setState(
-          to === 'samples'
-            ? sampleState()
-            : { items: [], events: [], settings: { ...sampleState().settings, lastReviewAt: Date.now() } },
+          withSetup(
+            to === 'samples'
+              ? sampleState()
+              : { items: [], events: [], settings: { ...sampleState().settings, lastReviewAt: Date.now() } },
+          ),
         ),
     }),
     [state, ready],

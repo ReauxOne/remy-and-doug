@@ -1,21 +1,34 @@
 import { useState } from 'react';
 import { Platform, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { parseThought } from '../parse';
+import { parseSpokenSetting } from '../spoken';
 import { useStore } from '../store';
-import { ContextId, Effort, Item } from '../types';
+import { ContextId, Effort, Item, Settings } from '../types';
 import { Button, Card, Chip, CONTEXTS, EFFORTS, H, Label, P, useTheme } from '../ui';
 
-export default function RemyScreen() {
+export default function RemyScreen({ prefill }: { prefill?: string }) {
   const t = useTheme();
-  const { state, addThought, updateItem, removeItem } = useStore();
-  const [text, setText] = useState('');
+  const { state, addThought, updateItem, removeItem, updateSettings, completeSetup } = useStore();
+  const [text, setText] = useState(prefill ?? '');
   const [lastId, setLastId] = useState<string | null>(null);
+  // When a thought was really a setting ("my work hours are…"), what changed and how to undo it.
+  const [setting, setSetting] = useState<{ summary: string; before: Partial<Settings> } | null>(null);
   const last: Item | undefined = state.items.find((i) => i.id === lastId);
 
   const save = () => {
     if (!text.trim()) return;
-    const item = addThought(parseThought(text, state.events));
-    setLastId(item.id);
+    const spoken = parseSpokenSetting(text, state.settings.workHours);
+    if (spoken) {
+      const before = spoken.type === 'workHours' ? { workHours: state.settings.workHours } : { reviewEveryDays: state.settings.reviewEveryDays };
+      updateSettings(spoken.type === 'workHours' ? { workHours: spoken.workHours } : { reviewEveryDays: spoken.days });
+      setSetting({ summary: spoken.summary, before });
+      setLastId(null);
+    } else {
+      const item = addThought(parseThought(text, state.events));
+      completeSetup('firstThought');
+      setLastId(item.id);
+      setSetting(null);
+    }
     setText('');
   };
 
@@ -30,7 +43,7 @@ export default function RemyScreen() {
         <TextInput
           value={text}
           onChangeText={setText}
-          placeholder="e.g. pick up washer fluid, or ask about reading level at the conference"
+          placeholder="e.g. pick up washer fluid, or my work hours are 9 to 5"
           placeholderTextColor={t.soft}
           multiline
           autoFocus
@@ -53,13 +66,30 @@ export default function RemyScreen() {
         </P>
       </Card>
 
+      {setting && (
+        <Card alt style={styles.gap}>
+          <Label>Remy will remember</Label>
+          <H size={20} style={{ marginTop: 4 }}>{setting.summary}</H>
+          <P soft style={{ marginTop: 8 }}>Saved to your settings. Say it again anytime to change it.</P>
+          <Button
+            label="Undo"
+            kind="quiet"
+            onPress={() => {
+              updateSettings(setting.before);
+              setSetting(null);
+            }}
+            style={{ marginTop: 14 }}
+          />
+        </Card>
+      )}
+
       {last && (
         <Card alt style={styles.gap}>
           <Label>Remy's got it</Label>
           <H size={20} style={{ marginTop: 4 }}>{last.text}</H>
           {last.kind === 'note' && eventOf(last.eventId) ? (
             <P style={{ marginTop: 8 }}>
-              Saved as a note for {eventOf(last.eventId)!.emoji} {eventOf(last.eventId)!.title}. I'll bring it back right before.
+              Saved as a note for {eventOf(last.eventId)!.title}. I'll bring it back right before.
             </P>
           ) : (
             <>
@@ -68,7 +98,7 @@ export default function RemyScreen() {
                 {(Object.keys(CONTEXTS) as ContextId[]).map((c) => (
                   <Chip
                     key={c}
-                    label={`${CONTEXTS[c].emoji} ${CONTEXTS[c].label}`}
+                    label={CONTEXTS[c].label}
                     active={last.context === c}
                     onPress={() => updateItem(last.id, { context: c })}
                   />
@@ -97,7 +127,7 @@ export default function RemyScreen() {
                 {state.events.map((ev) => (
                   <Chip
                     key={ev.id}
-                    label={`${ev.emoji} ${ev.title}`}
+                    label={ev.title}
                     active={last.eventId === ev.id}
                     onPress={() =>
                       updateItem(

@@ -6,7 +6,6 @@ import { BBEvent } from '../types';
 import { Button, Card, Chip, H, P, useTheme } from '../ui';
 
 const DAY = 24 * 60 * 60 * 1000;
-const EMOJIS = ['📅', '🍎', '🩺', '🎂', '✈️', '💼', '🏫', '🦷'];
 const QUICK_DATES: { label: string; days: number }[] = [
   { label: 'Tomorrow', days: 1 },
   { label: 'Next week', days: 7 },
@@ -30,7 +29,6 @@ export default function EventsScreen() {
   const [adding, setAdding] = useState(false);
   const [title, setTitle] = useState('');
   const [date, setDate] = useState(isoInDays(7));
-  const [emoji, setEmoji] = useState(EMOJIS[0]);
   const events = [...state.events].sort((a, b) => a.date.localeCompare(b.date));
   const validDate = /^\d{4}-\d{2}-\d{2}$/.test(date);
 
@@ -56,11 +54,6 @@ export default function EventsScreen() {
             style={[styles.input, { color: t.ink, borderColor: t.line }]}
           />
           <View style={styles.row}>
-            {EMOJIS.map((e) => (
-              <Chip key={e} label={e} active={emoji === e} onPress={() => setEmoji(e)} />
-            ))}
-          </View>
-          <View style={styles.row}>
             {QUICK_DATES.map((q) => (
               <Chip key={q.label} label={q.label} active={date === isoInDays(q.days)} onPress={() => setDate(isoInDays(q.days))} />
             ))}
@@ -76,7 +69,7 @@ export default function EventsScreen() {
             label="Add event"
             onPress={() => {
               if (!title.trim() || !validDate) return;
-              addEvent({ title: title.trim(), date, emoji });
+              addEvent({ title: title.trim(), date });
               setTitle('');
               setAdding(false);
             }}
@@ -108,9 +101,7 @@ function EventCard({ event }: { event: BBEvent }) {
   return (
     <Card style={styles.gap}>
       <Pressable onPress={() => setOpen((o) => !o)} accessibilityRole="button" accessibilityState={{ expanded: open }}>
-        <H size={20}>
-          {event.emoji} {event.title}
-        </H>
+<H size={20}>{event.title}</H>
         <P soft style={{ marginTop: 4 }}>
           {prettyDate(event.date)} · {whenLabel(days)} · {notes.length} {notes.length === 1 ? 'note' : 'notes'} {open ? '▴' : '▾'}
         </P>

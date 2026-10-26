@@ -1,4 +1,5 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
+import { clockLabel } from '../spoken';
 import { useStore } from '../store';
 import { Button, Card, Chip, H, P } from '../ui';
 
@@ -9,11 +10,6 @@ const REVIEW = [
   { label: 'Weekly', days: 7 },
 ];
 
-function hourLabel(h: number) {
-  const suffix = h < 12 || h === 24 ? 'am' : 'pm';
-  const n = h % 12 === 0 ? 12 : h % 12;
-  return `${n}${suffix}`;
-}
 
 export default function SettingsScreen() {
   const { state, updateSettings, reset } = useStore();
@@ -25,8 +21,8 @@ export default function SettingsScreen() {
       <H size={34}>Settings</H>
 
       <Card style={styles.gap}>
-        <H size={18}>💼 Work hours</H>
-        <P soft style={{ marginTop: 4 }}>During these hours Doug only suggests work. Outside them, work stays hidden.</P>
+        <H size={18}>Work hours</H>
+        <P soft style={{ marginTop: 4 }}>During these hours Doug only suggests work. Outside them, work stays hidden. You can also just tell Remy: "My work hours are Monday to Friday, 9 to 5."</P>
         <View style={styles.row}>
           {DAYS.map((d, i) => (
             <Chip
@@ -42,7 +38,7 @@ export default function SettingsScreen() {
       </Card>
 
       <Card style={styles.gap}>
-        <H size={18}>🧺 List check-in</H>
+        <H size={18}>List check-in</H>
         <P soft style={{ marginTop: 4 }}>How often should I ask when you last looked over your list?</P>
         <View style={styles.row}>
           {REVIEW.map((r) => (
@@ -52,9 +48,9 @@ export default function SettingsScreen() {
       </Card>
 
       <Card alt style={styles.gap}>
-        <H size={18}>🌱 Coming in the real app</H>
+        <H size={18}>Coming in the real app</H>
         <P soft style={{ marginTop: 6 }}>
-          📍 Reminders when you're near a store{'\n'}🔔 Notifications{'\n'}📆 Events pulled from your calendar{'\n'}🗣️ "Hey Siri, tell Remy…"{'\n'}🤖 Smarter AI sorting{'\n'}☁️ Sync across devices
+          Reminders when you're near a store{'\n'}Notifications{'\n'}Events pulled from your calendar{'\n'}"Hey Siri, tell Remy…"{'\n'}Smarter AI sorting{'\n'}Sync across devices
         </P>
       </Card>
 
@@ -74,7 +70,7 @@ function Stepper({ label, value, onChange }: { label: string; value: number; onC
     <View style={styles.stepper}>
       <P style={{ flex: 1, fontWeight: '600' }}>{label}</P>
       <Button label="–" kind="quiet" onPress={() => onChange(Math.max(0, value - 1))} style={styles.stepBtn} />
-      <P style={{ width: 64, textAlign: 'center', fontWeight: '700' }}>{hourLabel(value)}</P>
+      <P style={{ width: 64, textAlign: 'center', fontWeight: '700' }}>{clockLabel(value)}</P>
       <Button label="+" kind="quiet" onPress={() => onChange(Math.min(24, value + 1))} style={styles.stepBtn} />
     </View>
   );

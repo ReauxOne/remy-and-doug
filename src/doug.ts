@@ -1,4 +1,4 @@
-import { BBEvent, BBState, Effort, Energy, Item, WorkHours } from './types';
+import { BBEvent, BBState, Effort, Energy, Item, SetupId, WorkHours } from './types';
 
 const DAY = 24 * 60 * 60 * 1000;
 
@@ -29,6 +29,7 @@ export function tasksForNow(state: BBState, now: Date): Item[] {
   return state.items.filter(
     (i) =>
       i.kind === 'task' &&
+      !i.setup &&
       !i.doneAt &&
       (!i.snoozedUntil || i.snoozedUntil <= now.getTime()) &&
       (working ? i.context === 'work' : i.context !== 'work'),
@@ -61,6 +62,14 @@ export function pickOne(state: BBState, energy: Energy, now: Date, passed: Set<s
         reason: `It's ${whenLabel(days)}, and you've saved ${notes.length} ${notes.length === 1 ? 'note' : 'notes'} for it. Take a minute to look them over.`,
       };
     }
+  }
+
+  // Getting-started tasks come next, one at a time, whatever the hour or energy.
+  const setupLeft = state.items.filter((i) => i.setup && !i.doneAt);
+  const setup = setupLeft.find((i) => !passed.has(i.id) && (!i.snoozedUntil || i.snoozedUntil <= now.getTime()));
+  if (setup) {
+    const total = state.items.filter((i) => i.setup).length;
+    return { type: 'task', item: setup, reason: `${SETUP_REASONS[setup.setup!]} (Getting started: ${total - setupLeft.length + 1} of ${total})` };
   }
 
   const working = isWorkTime(state.settings.workHours, now);
@@ -96,6 +105,12 @@ function reasonFor(item: Item, energy: Energy, working: boolean) {
   if (item.skips >= 3) return "This one keeps getting bumped. Maybe today's the day?";
   return 'A good fit for right now.';
 }
+
+const SETUP_REASONS: Record<SetupId, string> = {
+  workHours: 'Say it like: "My work hours are Monday to Friday, 9 to 5." Then work stays out of sight after hours.',
+  firstThought: "Whatever's been rattling around. Remy will hold onto it so you don't have to.",
+  tidy: 'Look at a few things on your list, one at a time. Keep, snooze or let go.',
+};
 
 export function reviewDue(state: BBState, now: Date) {
   return now.getTime() - state.settings.lastReviewAt > state.settings.reviewEveryDays * DAY;

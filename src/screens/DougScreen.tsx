@@ -89,14 +89,27 @@ export default function DougScreen({ go }: { go: Go }) {
             {suggestion.item.place && <Chip label={`At: ${suggestion.item.place}`} />}
           </View>
           <P soft style={{ marginTop: 12 }}>{suggestion.reason}</P>
-          <Button
-            label="Done ✓"
-            onPress={() => {
-              updateItem(suggestion.item.id, { doneAt: Date.now() });
-              setCheer(CHEERS[Math.floor(Math.random() * CHEERS.length)]);
-            }}
-            style={styles.btnTop}
-          />
+          {suggestion.item.setup ? (
+            <Button
+              label="Do it now"
+              onPress={() => {
+                const id = suggestion.item.setup;
+                if (id === 'workHours') go('remy', { prefill: 'My work hours are ' });
+                else if (id === 'firstThought') go('remy');
+                else go('list', { review: true });
+              }}
+              style={styles.btnTop}
+            />
+          ) : (
+            <Button
+              label="Done ✓"
+              onPress={() => {
+                updateItem(suggestion.item.id, { doneAt: Date.now() });
+                setCheer(CHEERS[Math.floor(Math.random() * CHEERS.length)]);
+              }}
+              style={styles.btnTop}
+            />
+          )}
           <View style={[styles.row, { marginTop: 10 }]}>
             <Button
               label="Not now"
@@ -127,7 +140,7 @@ export default function DougScreen({ go }: { go: Go }) {
         <Card style={[styles.gap, styles.hero, { borderColor: t.calm }]}>
           <Label>Coming up {whenLabel(suggestion.days)}</Label>
           <H size={24} style={{ marginTop: 4 }}>
-            {suggestion.event.emoji} {suggestion.event.title}
+            {suggestion.event.title}
           </H>
           <P soft style={{ marginTop: 8 }}>{suggestion.reason}</P>
           {suggestion.notes.map((n) => (
