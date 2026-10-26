@@ -1,23 +1,24 @@
-# BrindleBrandle
+# Remy & Doug
 
-A warm, low-friction personal assistant for life — built with ADHD brains in mind.
+A calm, low-friction personal assistant for life, built with ADHD brains in mind.
 
-- **Brandle** — "add this to my list." Say or type a thought; it gets filed for you.
-- **Brindle** — "what should I do right now?" You get **one** suggestion that fits the moment.
+- **Remy remembers.** "Hey Remy, pick up washer fluid." Say or type a thought; it gets filed for you.
+- **Doug does.** "Doug, what now?" You get **one** suggestion that fits the moment.
 
-📋 **The plan** (design, costs, roadmap and notes) lives in [PLAN.md](PLAN.md).
+Website: [remyanddoug.com](https://remyanddoug.com). The plan (design, costs, pricing, roadmap and notes) lives in [PLAN.md](PLAN.md).
 
 ## Core ideas
 
 | Idea | What it means |
 |---|---|
-| Zero-friction capture | One word, no forms. Context, effort and timing are inferred and can be fixed later. |
-| One answer, not a list | Brindle picks a single next step. "Not now" skips it — no guilt, no red badges. |
-| Context filters | Time windows (e.g. work hours Mon–Fri 6am–4pm only show work items), places (pass an auto store → washer fluid), and events. |
-| Event notes | Collect notes and questions toward a future event (e.g. parent-teacher conference) and get them all back right before it. |
-| Effort matching | Brindle asks "how much gas do you have?" and suggests something that fits your energy. |
-| Gentle review | Every few days: "When did you last look over your list? Want 2 minutes to tidy it?" |
-| Tone | A friend with a clipboard, not a boss. Warm, light, a little playful. |
+| Zero-friction capture | No forms. Context, effort and timing are inferred and can be fixed later. |
+| Settings by talking | "My work hours are Monday through Friday, 5am to 3pm" updates your settings. |
+| One answer, not a list | Doug picks a single next step. "Not now" skips it, with no guilt and no red badges. |
+| Context filters | During work hours only work shows; outside them, work stays hidden. Places and events come next. |
+| Event notes | Collect notes and questions toward an upcoming event and get them all back right before it. |
+| Effort matching | Doug asks "how much gas do you have?" and suggests something that fits. |
+| Gentle review | A tidy-up nudge only when you haven't looked in a while. |
+| Look | Monochrome with one red-orange accent, a pixel dragonfly, and quiet pixel art in the background. |
 
 ## Try it
 
@@ -26,8 +27,8 @@ npm install
 npx expo start
 ```
 
-- **On your phone:** install **Expo Go** from the App Store, then scan the QR code in the terminal with your camera. Phone and computer need to be on the same Wi-Fi.
-- **In a browser:** press `w` in the terminal, or run `npx expo start --web`.
+- **On your phone:** install **Expo Go**, then scan the QR code in the terminal. Phone and computer need to be on the same Wi-Fi. Expo Go only runs the newest Expo SDK, so if it says the project is incompatible, upgrade with `npx expo install expo@^<new version> --fix`.
+- **In a browser:** press `w` in the terminal. The pixel background is skipped on the web.
 
 Everything is stored on the device. Settings → *Load samples* / *Clear everything* resets it.
 
@@ -35,29 +36,16 @@ Everything is stored on the device. Settings → *Load samples* / *Clear everyth
 
 | File | What it does |
 |---|---|
-| `src/parse.ts` | Brandle: sorts a raw thought into context, effort, place and event |
-| `src/brindle.ts` | Brindle: picks one suggestion from time, work hours, energy and upcoming events |
-| `src/store.tsx` | State, on-device storage and sample data |
-| `src/ui.tsx` | Colors (light and dark), shared buttons, cards and chips |
-| `src/screens/` | Brindle, Brandle, List (with review), Events, Settings |
+| `App.tsx` | Home screen (Tell Remy / Ask Doug) and moving between screens |
+| `src/parse.ts` | Remy: sorts a raw thought into context, effort, place and event |
+| `src/spoken.ts` | Remy: recognizes settings said out loud, like work hours |
+| `src/doug.ts` | Doug: picks one suggestion from getting-started tasks, events, work hours and energy |
+| `src/store.tsx` | State, on-device storage, sample data and getting-started tasks |
+| `src/ui.tsx` | Colors (light and dark), fonts, the dragonfly logo, shared buttons, cards and chips |
+| `src/PixelSky.native.tsx` | Pixel background on phones (Skia) |
+| `src/art/` | The quarter's background art (same shape as the website's) |
+| `src/screens/` | Remy, Doug, List (with review), Events, Settings |
 
-## Roadmap
+## License
 
-### Stage 1 — Prototype you can use on your phone
-- Expo (React Native) + TypeScript, run on your phone through Expo Go
-- Brandle capture (text first, then voice), Brindle suggestion, effort check, "not now"
-- Time-window contexts (work hours), event notes, review nudge
-- Data stored on the device only
-
-### Stage 2 — Real phone app (private beta)
-- Development build installed on your phone (needed for background location)
-- Location reminders (geofences around saved places or store types)
-- Local notifications, calendar access for upcoming events
-- "Hey Siri, Brindle" / "Hey Siri, Brandle" shortcuts
-- AI sorting of captured thoughts (Claude API) through a small backend
-- Sync and backup (e.g. Supabase); TestFlight for friends and family
-- Needs: Apple Developer account ($99/yr), Google Play account ($25 once)
-
-### Stage 3 — Public launch
-- Accounts, privacy policy, App Store review (location use must be justified)
-- Pricing (AI calls cost money per use), onboarding, support
+Copyright © 2026 Remy & Doug. All rights reserved. The code is shared to read and learn from; it isn't licensed for reuse.
