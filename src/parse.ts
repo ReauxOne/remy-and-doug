@@ -1,4 +1,4 @@
-import { BBEvent, ContextId, Effort } from './types';
+import type { BBEvent, ContextId, Effort } from './types';
 
 export interface ParsedThought {
   text: string;
@@ -12,7 +12,7 @@ export interface ParsedThought {
 const CONTEXT_WORDS: Record<Exclude<ContextId, 'anything'>, string[]> = {
   work: ['work', 'meeting', 'email', 'report', 'boss', 'client', 'deck', 'spreadsheet', 'invoice', 'timesheet', 'project', 'coworker', 'manager', 'standup', 'deadline', 'slack', 'proposal'],
   errands: ['pick up', 'buy', 'grab', 'store', 'shop', 'groceries', 'pharmacy', 'prescription', 'return', 'drop off', 'post office', 'gas', 'washer fluid', 'oil change', 'bank'],
-  home: ['clean', 'laundry', 'dishes', 'vacuum', 'fix', 'garage', 'yard', 'mow', 'trash', 'bills', 'closet', 'fridge', 'sheets', 'organize'],
+  home: ['clean', 'laundry', 'dishes', 'vacuum', 'fix', 'garage', 'yard', 'mow', 'trash', 'bill', 'bills', 'closet', 'fridge', 'sheets', 'organize'],
   people: ['call', 'text', 'mom', 'dad', 'kid', 'kids', 'birthday', 'friend', 'teacher', 'doctor', 'dentist', 'appointment', 'thank', 'invite'],
 };
 
@@ -21,7 +21,7 @@ const PLACES: { place: string; words: string[] }[] = [
   { place: 'auto parts store', words: ['washer fluid', 'wiper', 'motor oil', 'car battery', 'antifreeze', 'auto'] },
   { place: 'grocery store', words: ['groceries', 'milk', 'eggs', 'bread', 'produce', 'snacks', 'coffee'] },
   { place: 'pharmacy', words: ['pharmacy', 'prescription', 'medicine', 'vitamins'] },
-  { place: 'hardware store', words: ['hardware', 'screws', 'light bulb', 'paint', 'batteries', 'filter'] },
+  { place: 'hardware store', words: ['hardware', 'screws', 'light bulb', 'paint', 'batteries', 'filter', 'light bulbs', 'bulbs'] },
   { place: 'post office', words: ['post office', 'mail', 'package', 'stamps'] },
 ];
 

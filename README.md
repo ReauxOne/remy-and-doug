@@ -6,6 +6,7 @@ A calm, low-friction personal assistant for life, built with ADHD brains in mind
 - **Doug does.** "Doug, what now?" You get **one** suggestion that fits the moment.
 
 Website: [remyanddoug.com](https://remyanddoug.com). The plan (design, costs, pricing, roadmap and notes) lives in [PLAN.md](PLAN.md).
+How Remy understands people and how Doug picks: [playbook/PLAYBOOK.md](playbook/PLAYBOOK.md) (check it with `npm run playbook`).
 
 ## Core ideas
 
@@ -45,6 +46,8 @@ Everything is stored on the device. Settings → *Load samples* / *Clear everyth
 | `src/PixelSky.native.tsx` | Pixel background on phones (Skia) |
 | `src/art/` | The quarter's background art (same shape as the website's) |
 | `src/screens/` | Remy, Doug, List (with review), Events, Settings |
+| `playbook/` | The playbook and its example phrases |
+| `scripts/playbook-check.mjs` | Checks today's rules against the example phrases |
 
 ## License
 

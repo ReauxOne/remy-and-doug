@@ -137,10 +137,11 @@ After the stores' 15% cut, a Plus subscriber brings in about $4.20 a month, and 
 - [x] **Rename and brand:** Remy & Doug, pixel dragonfly, monochrome plus red-orange
 - [x] **Website:** [remyanddoug.com](https://remyanddoug.com) with privacy and support pages, a light/dark favicon and quarterly background art
 - [x] **Email:** hello@remyanddoug.com
+- [x] **Old site retired:** brindlebrandle.com redirects to remyanddoug.com; repo archived
 - [x] **App redesign, part 1:** two-button home, new look, no emoji, app icons with light, dark and tinted versions
 - [x] **Spoken settings:** work hours and check-in rhythm through Tell Remy
 - [x] **Getting started:** Doug's three setup tasks
-- [ ] **Remy's playbook:** the kinds of things people say, 50–100 example phrases and where each goes. These become the AI's instructions and its tests.
+- [x] **Remy's playbook, part 1:** [playbook/PLAYBOOK.md](playbook/PLAYBOOK.md) with 49 example phrases (34 handled by today's rules, 15 waiting for AI). Keep adding phrases toward 100.
 - [ ] **Swipe review:** right to keep, up to snooze, left to let go, with Undo
 - [ ] **AI sorting:** Supabase function and Claude Haiku. Understands dates and events.
 - [ ] **Notifications:** check-ins and event reminders

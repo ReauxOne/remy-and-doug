@@ -1,0 +1,65 @@
+{
+  "about": "Things people say to Remy and what should happen. Fields under 'expect' are checked; leave out anything that doesn't matter. Mark phrases that need dates, times or judgment with \"needs\": \"ai\". Run: npm run playbook",
+  "events": [
+    { "id": "conf", "title": "Parent-teacher conference", "date": "2026-11-04" },
+    { "id": "dentist", "title": "Dentist appointment", "date": "2026-11-10" }
+  ],
+  "workHours": { "days": [1, 2, 3, 4, 5], "startHour": 9, "endHour": 17 },
+  "examples": [
+    { "say": "pick up washer fluid", "expect": { "type": "task", "context": "errands", "effort": "low", "place": "auto parts store" } },
+    { "say": "Hey Remy, grab milk and eggs", "expect": { "type": "task", "context": "errands", "effort": "low", "place": "grocery store" } },
+    { "say": "pick up my prescription", "expect": { "type": "task", "context": "errands", "place": "pharmacy" } },
+    { "say": "buy light bulbs for the hallway", "expect": { "type": "task", "context": "errands", "place": "hardware store" } },
+    { "say": "mail the package to grandma", "expect": { "type": "task", "context": "errands", "place": "post office" } },
+    { "say": "return the shoes", "expect": { "type": "task", "context": "errands", "effort": "low" } },
+
+    { "say": "reply to the vendor email", "expect": { "type": "task", "context": "work", "effort": "low" } },
+    { "say": "draft the Q4 project plan", "expect": { "type": "task", "context": "work", "effort": "high" } },
+    { "say": "send the invoice to the client", "expect": { "type": "task", "context": "work", "effort": "low" } },
+    { "say": "prepare slides for the client meeting", "expect": { "type": "task", "context": "work", "effort": "high" } },
+    { "say": "finish my timesheet", "expect": { "type": "task", "context": "work" } },
+    { "say": "work on the Q4 report", "expect": { "type": "task", "context": "work" } },
+
+    { "say": "switch the laundry", "expect": { "type": "task", "context": "home", "effort": "low" } },
+    { "say": "deep clean the fridge", "expect": { "type": "task", "context": "home", "effort": "high" } },
+    { "say": "declutter the hall closet", "expect": { "type": "task", "context": "home", "effort": "high" } },
+    { "say": "take out the trash", "expect": { "type": "task", "context": "home", "effort": "low" } },
+    { "say": "pay the water bill", "expect": { "type": "task", "context": "home", "effort": "low" } },
+    { "say": "change the sheets", "expect": { "type": "task", "context": "home" } },
+
+    { "say": "text Mom back about Sunday", "expect": { "type": "task", "context": "people", "effort": "low" } },
+    { "say": "call the vet to book a checkup", "expect": { "type": "task", "context": "people", "effort": "low" } },
+    { "say": "send Sam a birthday card", "expect": { "type": "task", "context": "people" } },
+    { "say": "thank Aunt Jo for the gift", "expect": { "type": "task", "context": "people" } },
+
+    { "say": "ask about reading level at the conference", "expect": { "type": "note", "event": "conf" } },
+    { "say": "mention the bus pickup mix-up at the conference", "expect": { "type": "note", "event": "conf" } },
+    { "say": "ask the dentist about my sensitive tooth", "expect": { "type": "note", "event": "dentist" } },
+    { "say": "bring up the cracked filling at the dentist", "expect": { "type": "note", "event": "dentist" } },
+
+    { "say": "Hey Remy, my work hours are Monday through Friday from 5am to 3pm", "expect": { "type": "setting", "summary": "Work hours: Mon–Fri, 5am to 3pm." } },
+    { "say": "I work weekdays 9 to 5", "expect": { "type": "setting", "summary": "Work hours: Mon–Fri, 9am to 5pm." } },
+    { "say": "my work hours are Mon-Thu 8:30am-4:30pm", "expect": { "type": "setting", "summary": "Work hours: Mon–Thu, 8:30am to 4:30pm." } },
+    { "say": "I work Tuesday, Thursday and Saturday from noon until 8pm", "expect": { "type": "setting", "summary": "Work hours: Tue, Thu, Sat, 12pm to 8pm." } },
+    { "say": "my shift is 7 to 3 on weekends", "expect": { "type": "setting", "summary": "Work hours: weekends, 7am to 3pm." } },
+    { "say": "remind me to tidy up every week", "expect": { "type": "setting", "summary": "List check-in: every week." } },
+    { "say": "ask me to check in daily", "expect": { "type": "setting", "summary": "List check-in: every day." } },
+    { "say": "I work from home on Tuesdays", "expect": { "type": "task" }, "why": "Days alone shouldn't change the schedule." },
+
+    { "say": "dentist on Tuesday at 3pm", "needs": "ai", "expect": { "type": "event", "title": "Dentist", "when": "next Tuesday 3pm" } },
+    { "say": "parent-teacher conference November 4th", "needs": "ai", "expect": { "type": "event", "title": "Parent-teacher conference", "when": "Nov 4" } },
+    { "say": "the school flyer says picture day is Nov 12", "needs": "ai", "expect": { "type": "event", "title": "Picture day", "when": "Nov 12" } },
+    { "say": "remind me to take the trash out Thursday night", "needs": "ai", "expect": { "type": "reminder", "context": "home", "when": "Thursday evening" } },
+    { "say": "renew my license before my birthday in March", "needs": "ai", "expect": { "type": "deadline", "context": "errands", "when": "before March" } },
+    { "say": "water the plants every Sunday", "needs": "ai", "expect": { "type": "recurring", "context": "home", "repeats": "weekly on Sunday" } },
+    { "say": "maybe learn pottery someday", "needs": "ai", "expect": { "type": "someday" } },
+    { "say": "idea: a podcast about tiny houses", "needs": "ai", "expect": { "type": "someday" } },
+    { "say": "I already called Mom", "needs": "ai", "expect": { "type": "done", "matches": "Text Mom back about Sunday" } },
+    { "say": "Doug, what should I do?", "needs": "ai", "expect": { "type": "askDoug" } },
+    { "say": "I'm off this Friday", "needs": "ai", "expect": { "type": "setting", "setting": "day off", "when": "this Friday" } },
+    { "say": "don't bug me after 9pm", "needs": "ai", "expect": { "type": "setting", "setting": "quiet hours", "when": "after 9pm" } },
+    { "say": "my office is on 5th Street", "needs": "ai", "expect": { "type": "setting", "setting": "saved place", "place": "work" } },
+    { "say": "pick up the dry cleaning when I'm near downtown", "needs": "ai", "expect": { "type": "task", "context": "errands", "place": "dry cleaner" } },
+    { "say": "Remy, I'm overwhelmed", "needs": "ai", "expect": { "type": "feeling" }, "why": "Respond gently and offer one small thing from Doug." }
+  ]
+}
