@@ -105,7 +105,7 @@ They finish themselves when you do the thing, however you do it.
 | Website hosting (GitHub Pages) | Free | |
 | Fonts | Free | Google Fonts |
 | Quarterly background art | Free | Design time only |
-| Apple Developer | $99/yr | Needed for TestFlight and the App Store |
+| Apple Developer | $99/yr | Purchased October 26, 2026 |
 | Google Play | $25 once | |
 | App builds (Expo EAS) | Free → ~$19/mo | Paid only with frequent builds |
 | Cloud backup and AI (Supabase + Claude Haiku) | Free → ~$25/mo, plus about 3–10¢ per user per month | Starts when AI sorting goes live |
@@ -114,15 +114,14 @@ They finish themselves when you do the thing, however you do it.
 
 **Rule of thumb:** anything that runs on the phone or in the browser costs time, not money. Anything on a server or using AI costs a little per user each month. Store accounts and trademarks are yearly or one-time fees.
 
-## Pricing (proposal)
+## Pricing: free, with "Buy us a tea"
 
-| Plan | Price | What's in it |
-|---|---|---|
-| **Free** | $0 | Tell Remy, Ask Doug, tidy-ups and reminders on the phone. About 30 AI-sorted thoughts a month. |
-| **Plus** | $4.99/mo or $39.99/yr | Unlimited AI sorting, calendar and reminder connections, Siri, backup across devices |
-| **Founding member** | $29.99/yr, locked in | For beta testers |
+**Decided October 26, 2026:** Remy & Doug is free for everyone. A gentle **"Buy us a tea"** button lets people chip in a few dollars if it helps them.
 
-After the stores' 15% cut, a Plus subscriber brings in about $4.20 a month, and AI costs about 10¢ of that. Around 15–20 yearly subscribers cover the fixed costs.
+- **In the app:** tips must go through Apple's and Google's own in-app purchase ("tip jar" items such as $1.99, $4.99 and $9.99). The stores keep 15%. Outside links to donation sites are restricted in apps, so check the current App Store and Google Play rules before launch.
+- **On the website:** a donation link (for example Buy Me a Coffee or Ko-fi) is fine and has no store cut.
+- **Tone:** never a pop-up, never a guilt nudge. A quiet row in Settings, and maybe a mention after a tidy-up once in a while.
+- **Keeping costs low while free:** do as much as possible on the phone (the playbook rules cost nothing). Use AI sorting only for the phrases rules can't handle, with a monthly limit per person if costs grow.
 
 ## Trademark (to do before the public beta)
 
@@ -146,7 +145,8 @@ After the stores' 15% cut, a Plus subscriber brings in about $4.20 a month, and 
 - [ ] **AI sorting:** Supabase function and Claude Haiku. Understands dates and events.
 - [ ] **Notifications:** check-ins and event reminders
 - [ ] **Backup and accounts:** Sign in with Apple, cloud copy of the list
-- [ ] **Private beta:** Apple Developer account, a real build, TestFlight for friends and family
+- [ ] **Private beta:** Apple Developer account (purchased October 26, 2026, waiting for confirmation), a real build, TestFlight for friends and family
+- [ ] **Buy us a tea:** tip jar through in-app purchase, plus a donation link on the website
 - [ ] **Siri and Focus:** "Hey Siri, tell Remy…", Work Focus shows work only (needs the real build)
 - [ ] **Phone calendar and reminders connection**
 - [ ] **Share to Remy:** from Notes, Messages, email and screenshots
@@ -168,7 +168,6 @@ After the stores' 15% cut, a Plus subscriber brings in about $4.20 a month, and 
 - Snooze length: always one week, or pick each time?
 - Should Doug ever say "nothing right now, go rest" on purpose?
 - Shared lists (partner or family) someday?
-- Free versus paid: confirm the line above with beta testers
 - Do Remy and Doug have distinct voices and personalities?
 - Which connection after the calendar? Which apps do people actually ask for?
 - Background art for 2027 Q1?
